@@ -3,78 +3,74 @@
 namespace Pavelvais\UpsertDoctrine\Service;
 
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\Platforms\MariaDBPlatform;
-use Doctrine\DBAL\Platforms\MySQL80Platform;
-use Doctrine\DBAL\Platforms\MySQLPlatform;
-use Doctrine\DBAL\Result;
+use Doctrine\DBAL\Exception;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Exception\NotSupported;
+use Pavelvais\UpsertDoctrine\Providers\ProviderInterface;
+use Pavelvais\UpsertDoctrine\Providers\ProviderManager;
 
 class UpsertQueryBuilder
 {
 
-    private array $allowedPlatforms = [
-        MySQLPlatform::class,
-        MySQL80Platform::class,
-        MariaDBPlatform::class,
-    ];
+    private ?ProviderInterface $upsertProvider = null;
 
     private Connection $connection;
 
     public function __construct(
-        private EntityManagerInterface $entityManager,
+        private readonly EntityManagerInterface $entityManager,
     )
     {
         $this->connection = $entityManager->getConnection();
+        $this->providerManager = new ProviderManager();
     }
 
+    /**
+     * Builds and returns an upsert query.
+     *
+     * @param array $data Data to insert or update.
+     * @param string $repositoryClass Repository class to find the table name.
+     *
+     * @return string The SQL query string for upsert.
+     *
+     * @throws NotSupported If the database platform is not supported.
+     */
     public function upsertQuery(array $data, string $repositoryClass): string
     {
         $this->checkPlatform();
         $table = $this->getTableName($repositoryClass);
-        return $this->buildSqlQuery($data, $table);
+        return $this->upsertProvider->getUpsertQuery($data, $table);
     }
 
+    /**
+     * Byly pridany provideri pro jednotlive platformy, díky čemuž se projekt stal více rozšiřitelným.
+     * @throws NotSupported
+     * @throws Exception
+     */
     public function checkPlatform(): void
     {
         $dbPlatform = get_class($this->connection->getDatabasePlatform());
         $dbParentPlatform = get_parent_class($this->connection->getDatabasePlatform());
-        if (!in_array($dbPlatform, $this->allowedPlatforms)
-            && !in_array($dbParentPlatform, $this->allowedPlatforms)) {
-            throw new NotSupported("Upsert is not supported on platform {$dbPlatform}.");
+
+        try {
+            $this->upsertProvider = $this->providerManager->getProvider($dbPlatform);
+        } catch (NotSupported $e) {
+            if ($dbParentPlatform) {
+                $this->upsertProvider = $this->providerManager->getProvider($dbParentPlatform);
+            } else {
+                throw $e;
+            }
         }
     }
 
+    /**
+     * Gets the table name from the repository class.
+     *
+     * @param string $repositoryClass Repository class to find the table name.
+     *
+     * @return string The table name.
+     */
     private function getTableName(string $repositoryClass): string
     {
         return $this->entityManager->getClassMetadata($repositoryClass)->getTableName();
-    }
-
-    private function buildSqlQuery(array $data, string $table): string
-    {
-        $columns = array_keys($data);
-        $placeholders = array_map(fn($column) => ':' . $column, $columns);
-
-        $insertColumns = implode(', ', $columns);
-        $insertValues = implode(', ', $placeholders);
-        $update = implode(', ', array_map(fn($column) => $column . ' = VALUES(' . $column . ')', $columns));
-
-        return sprintf(
-            'INSERT INTO %s (%s) VALUES (%s) ON DUPLICATE KEY UPDATE %s',
-            $table,
-            $insertColumns,
-            $insertValues,
-            $update
-        );
-    }
-
-    private function executeQuery(string $sql, array $data): Result
-    {
-        $statement = $this->connection->prepare($sql);
-        foreach ($data as $column => $value) {
-            $statement->bindValue(':' . $column, $value);
-        }
-
-        return $statement->executeQuery();
     }
 }
