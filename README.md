@@ -1,4 +1,4 @@
-_# Upsert-Doctrine
+# Upsert-Doctrine
 
 [![PHP Unit Tests](https://github.com/PavelVais/upsert-doctrine/actions/workflows/php.yml/badge.svg?branch=main)](https://github.com/PavelVais/upsert-doctrine/actions/workflows/php.yml)
 
