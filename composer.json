@@ -8,6 +8,11 @@
       "Pavelvais\\UpsertDoctrine\\": "src/"
     }
   },
+  "autoload-dev": {
+    "psr-4": {
+      "Pavelvais\\UpsertDoctrine\\Tests\\": "tests/"
+    }
+  },
   "require-dev": {
     "doctrine/orm": "2.16.2",
     "doctrine/dbal": "3.7",
