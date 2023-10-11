@@ -1,21 +1,32 @@
-# Makefile
+DC = docker-compose
+DC_RUN = $(DC) run --rm app
+DC_EXEC = $(DC) exec app
+
+# Starts the containers in the background
 start:
-	docker-compose up -d
+	$(DC) up -d
 
+# Stops and removes the containers
 stop:
-	docker-compose down
+	$(DC) down
 
+# Builds and starts the containers in the background
 build:
-	docker-compose up --build -d
+	$(DC) up --build -d
 
+# Installs dependencies using Composer
 composer-install:
-	docker-compose run --rm app composer install
+	$(DC_RUN) composer install
 
+# Updates dependencies using Composer
 composer-update:
-	docker-compose run --rm app composer update
+	$(DC_RUN) composer update
 
+# Runs PHPUnit tests
 test:
-	docker-compose run --rm app vendor/bin/phpunit
+	$(DC_RUN) vendor/bin/phpunit
 
+# Connects to the app container via SSH
 ssh:
-	docker-compose exec app bash
+	$(DC_EXEC) bash
+
