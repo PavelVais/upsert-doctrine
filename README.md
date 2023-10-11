@@ -1,4 +1,4 @@
-# Upsert-Doctrine
+_# Upsert-Doctrine
 
 [![PHP Unit Tests](https://github.com/PavelVais/upsert-doctrine/actions/workflows/php.yml/badge.svg?branch=main)](https://github.com/PavelVais/upsert-doctrine/actions/workflows/php.yml)
 
@@ -30,6 +30,34 @@ $data = [
 // Execute the upsert
 $upsertQueryBuilder->upsertQuery($data,DoctrineOrmEntity::class);
 ```
+
+## Local Testing with Docker
+
+This project includes a Docker setup to run local testing and development. 
+Here are the steps to get started:
+
+1. **Build and manage the Containers**:
+   Build and start the containers in the background.
+   ```bash
+   make build
+    ```
+   To stop and remove the containers, use the following command:
+    ```bash
+   make stop
+    ```
+
+2. Installing Dependencies:
+   Install the project dependencies using Composer with the following command:
+    ```bash
+    make composer-install
+    ```
+3. Running Tests:
+    Run the PHPUnit tests to ensure everything is working as expected.  
+    ```bash
+    make test
+    ```
+
+
 ## Roadmap
 
 - [x] Milestone 1: Basic Upsert Functionality
@@ -46,4 +74,4 @@ Ensure to update tests as necessary.
 
 # License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details._
