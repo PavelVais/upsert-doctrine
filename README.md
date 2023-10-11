@@ -1,5 +1,7 @@
 # Upsert-Doctrine
 
+[![PHP Unit Tests](https://github.com/PavelVais/upsert-doctrine/actions/workflows/php.yml/badge.svg?branch=main)](https://github.com/PavelVais/upsert-doctrine/actions/workflows/php.yml)
+
 Upsert-Doctrine is a PHP library aimed at providing an elegant solution for upsert operations in Doctrine. 
 This library simplifies the process of either inserting a new record or updating an existing one 
 in a single operation, all within the Doctrine ORM ecosystem.
