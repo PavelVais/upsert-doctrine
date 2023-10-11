@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Pavelvais\UpsertDoctrine\Providers;
+namespace Pavelvais\UpsertDoctrine\Provider;
 
 class MariaDbUpsertProvider implements ProviderInterface
 {

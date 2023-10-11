@@ -6,8 +6,8 @@ use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Exception;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Exception\NotSupported;
-use Pavelvais\UpsertDoctrine\Providers\ProviderInterface;
-use Pavelvais\UpsertDoctrine\Providers\ProviderManager;
+use Pavelvais\UpsertDoctrine\Provider\ProviderInterface;
+use Pavelvais\UpsertDoctrine\Provider\ProviderManager;
 
 class UpsertQueryBuilder
 {

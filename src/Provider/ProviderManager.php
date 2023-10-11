@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Pavelvais\UpsertDoctrine\Providers;
+namespace Pavelvais\UpsertDoctrine\Provider;
 
 use Doctrine\DBAL\Platforms\MariaDBPlatform;
 use Doctrine\DBAL\Platforms\MySQL80Platform;
