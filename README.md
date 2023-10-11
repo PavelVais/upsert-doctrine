@@ -27,8 +27,17 @@ $data = [
     'email' => 'johndoe@example.com'
 ];
 
-// Execute the upsert
-$upsertQueryBuilder->upsertQuery($data,DoctrineOrmEntity::class);
+// Create upsert query
+$query = $upsertQueryBuilder->upsertQuery($data, DoctrineOrmEntity::class);
+
+// Execute upsert query
+$statement = $entityManager->getConnection()->prepare($sql);
+
+foreach ($data as $column => $value) {
+    $statement->bindValue(':' . $column, $value);
+}
+
+$result = $statement->executeQuery();
 ```
 
 ## Local Testing with Docker
