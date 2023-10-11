@@ -39,9 +39,8 @@ class UpsertQueryBuilderTest extends TestCase
     /**
      * @dataProvider upsertQueryDataProvider
      */
-    public function testUpsertQueryGeneratesCorrectSQL(): void
+    public function testUpsertQueryGeneratesCorrectSQL(array $data, string $expectedSQ): void
     {
-        $data = ['column1' => 'value1', 'column2' => 'value2'];
         $repositoryClass = 'SomeClass';
         $table = 'some_table';
 
@@ -60,7 +59,7 @@ class UpsertQueryBuilderTest extends TestCase
 
         $upsertQueryBuilder = new UpsertQueryBuilder($this->entityManager);
         $sql = $upsertQueryBuilder->upsertQuery($data, $repositoryClass);
-        $this->assertSame("INSERT INTO some_table (column1, column2) VALUES (:column1, :column2) ON DUPLICATE KEY UPDATE column1 = VALUES(column1), column2 = VALUES(column2)", $sql);
+        $this->assertSame($expectedSQ, $sql);
     }
 
     public function testCheckPlatformThrowsExceptionForUnsupportedPlatform(): void
@@ -82,7 +81,7 @@ class UpsertQueryBuilderTest extends TestCase
         return [
             [
                 ['column1' => null],
-                "INSERT INTO some_table (column1, column2) VALUES (:column1, :column2) ON DUPLICATE KEY UPDATE column1 = VALUES(column1)",
+                "INSERT INTO some_table (column1) VALUES (:column1) ON DUPLICATE KEY UPDATE column1 = VALUES(column1)",
             ],
             [
                 ['column1' => 'value1', 'column2' => 'value2'],
@@ -90,7 +89,7 @@ class UpsertQueryBuilderTest extends TestCase
             ],
             [
                 ['column1' => null, 'column2' => 'value2', 'column3' => 'value3'],
-                "INSERT INTO some_table (column1, column2) VALUES (:column1, :column2) ON DUPLICATE KEY UPDATE column1 = VALUES(column1), column2 = VALUES(column2), column3 = VALUES(column3)",
+                "INSERT INTO some_table (column1, column2, column3) VALUES (:column1, :column2, :column3) ON DUPLICATE KEY UPDATE column1 = VALUES(column1), column2 = VALUES(column2), column3 = VALUES(column3)",
             ],
         ];
     }
