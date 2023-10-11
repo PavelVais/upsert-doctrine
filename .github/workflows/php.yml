@@ -35,7 +35,7 @@ jobs:
           extensions: mbstring, xml, ctype, iconv, intl, pdo_sqlite
 
       - name: Install dependencies
-        run: composer install --prefer-dist --no-progress --no-suggest
+        run: composer install --prefer-dist --no-progress
 
       - name: Run PHPUnit
         run: ./vendor/bin/phpunit tests/
