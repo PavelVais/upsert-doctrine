@@ -1,0 +1,23 @@
+{
+  "name": "pavelvais/upsert-doctrine",
+  "description": "Doctrine helper for update and insert functionality",
+  "type": "library",
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "Pavelvais\\UpsertDoctrine\\": "src/"
+    }
+  },
+  "require-dev": {
+    "doctrine/orm": "2.16.2",
+    "doctrine/dbal": "3.7",
+    "phpstan/phpstan": "^1.10",
+    "phpunit/phpunit": "^9"
+  },
+  "authors": [
+    {
+      "name": "Pavel Vais"
+    }
+  ],
+  "minimum-stability": "dev"
+}
