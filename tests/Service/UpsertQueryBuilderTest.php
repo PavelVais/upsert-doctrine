@@ -11,12 +11,13 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Exception\NotSupported;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Pavelvais\UpsertDoctrine\Service\UpsertQueryBuilder;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class UpsertQueryBuilderTest extends TestCase
 {
-    private $entityManager;
-    private $connection;
+    private EntityManagerInterface|MockObject $entityManager;
+    private Connection|MockObject $connection;
 
     public function setUp(): void
     {
@@ -35,6 +36,9 @@ class UpsertQueryBuilderTest extends TestCase
         $this->assertInstanceOf(UpsertQueryBuilder::class, $upsertQueryBuilder);
     }
 
+    /**
+     * @dataProvider upsertQueryDataProvider
+     */
     public function testUpsertQueryGeneratesCorrectSQL(): void
     {
         $data = ['column1' => 'value1', 'column2' => 'value2'];
@@ -73,5 +77,21 @@ class UpsertQueryBuilderTest extends TestCase
         $upsertQueryBuilder->checkPlatform();
     }
 
-    // ... Further tests for executeQuery and other methods.
+    public function upsertQueryDataProvider(): array
+    {
+        return [
+            [
+                ['column1' => null],
+                "INSERT INTO some_table (column1, column2) VALUES (:column1, :column2) ON DUPLICATE KEY UPDATE column1 = VALUES(column1)",
+            ],
+            [
+                ['column1' => 'value1', 'column2' => 'value2'],
+                "INSERT INTO some_table (column1, column2) VALUES (:column1, :column2) ON DUPLICATE KEY UPDATE column1 = VALUES(column1), column2 = VALUES(column2)",
+            ],
+            [
+                ['column1' => null, 'column2' => 'value2', 'column3' => 'value3'],
+                "INSERT INTO some_table (column1, column2) VALUES (:column1, :column2) ON DUPLICATE KEY UPDATE column1 = VALUES(column1), column2 = VALUES(column2), column3 = VALUES(column3)",
+            ],
+        ];
+    }
 }
