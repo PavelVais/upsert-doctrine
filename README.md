@@ -32,7 +32,7 @@ $upsertQueryBuilder->upsertQuery($data,DoctrineOrmEntity::class);
 ```
 ## Roadmap
 
-- [✅] Milestone 1: Basic Upsert Functionality
+- [x] Milestone 1: Basic Upsert Functionality
 - [ ] Milestone 2: Batch Upsert method
 - [ ] Milestone 3: Postgres Support
 - [ ] Milestone 4: Live database testing
