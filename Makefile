@@ -2,6 +2,8 @@ DC = docker-compose
 DC_RUN = $(DC) run --rm app
 DC_EXEC = $(DC) exec app
 
+.PHONY: start stop build composer-install composer-update test ssh
+
 # Starts the containers in the background
 start:
 	$(DC) up -d
