@@ -15,13 +15,14 @@ class UpsertQueryBuilder
     private ?ProviderInterface $upsertProvider = null;
 
     private Connection $connection;
+    private ProviderManager $providerManager;
 
     public function __construct(
         private readonly EntityManagerInterface $entityManager,
     )
     {
         $this->connection = $entityManager->getConnection();
-        $this->providerManager = new ProviderManager();
+        $this->providerManager = new ProviderManager($entityManager);
     }
 
     /**
@@ -42,14 +43,26 @@ class UpsertQueryBuilder
     }
 
     /**
-     * Byly pridany provideri pro jednotlive platformy, díky čemuž se projekt stal více rozšiřitelným.
      * @throws NotSupported
-     * @throws Exception
+     */
+    public function upsertBatchQuery(array $data, string $repositoryClass): string
+    {
+        $this->checkPlatform();
+        $table = $this->getTableName($repositoryClass);
+        return $this->upsertProvider->getUpsertBatchQuery($data, $table);
+    }
+
+    /**
+     * @throws NotSupported
      */
     public function checkPlatform(): void
     {
-        $dbPlatform = get_class($this->connection->getDatabasePlatform());
-        $dbParentPlatform = get_parent_class($this->connection->getDatabasePlatform());
+        try {
+            $dbPlatform = get_class($this->connection->getDatabasePlatform());
+            $dbParentPlatform = get_parent_class($this->connection->getDatabasePlatform());
+        } catch (Exception $e) {
+            throw new NotSupported("Platform is misconfigured.", previous: $e);
+        }
 
         try {
             $this->upsertProvider = $this->providerManager->getProvider($dbPlatform);

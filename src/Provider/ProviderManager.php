@@ -5,10 +5,16 @@ namespace Pavelvais\UpsertDoctrine\Provider;
 use Doctrine\DBAL\Platforms\MariaDBPlatform;
 use Doctrine\DBAL\Platforms\MySQL80Platform;
 use Doctrine\DBAL\Platforms\MySQLPlatform;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Exception\NotSupported;
 
 class ProviderManager
 {
+    public function __construct(
+        private readonly EntityManagerInterface $entityManager,
+    )
+    {
+    }
 
     /**
      * @var array Mapping of database platforms to their Upsert providers.
@@ -31,6 +37,6 @@ class ProviderManager
         if (!isset($this->providerMap[$dbPlatform])) {
             throw new NotSupported("Upsert is not supported on platform {$dbPlatform}.");
         }
-        return new $this->providerMap[$dbPlatform];
+        return new $this->providerMap[$dbPlatform]($this->entityManager);
     }
 }

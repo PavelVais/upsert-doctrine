@@ -24,5 +24,8 @@
       "name": "Pavel Vais"
     }
   ],
-  "minimum-stability": "dev"
+  "minimum-stability": "dev",
+  "require": {
+    "ext-mysqli": "*"
+  }
 }

@@ -2,8 +2,16 @@
 
 namespace Pavelvais\UpsertDoctrine\Provider;
 
-Interface ProviderInterface
+use Doctrine\ORM\EntityManagerInterface;
+
+interface ProviderInterface
 {
+    public function __construct(
+        EntityManagerInterface $entityManager,
+    );
+
     public function getUpsertQuery(array $data, string $tableName): string;
+
+    public function getUpsertBatchQuery(array $data, string $table);
 
 }
