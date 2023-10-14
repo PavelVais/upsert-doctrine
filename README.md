@@ -70,7 +70,7 @@ Here are the steps to get started:
 ## Roadmap
 
 - [x] Milestone 1: Basic Upsert Functionality
-- [ ] Milestone 2: Batch Upsert method
+- [x] Milestone 2: Batch Upsert method
 - [ ] Milestone 3: Postgres Support
 - [ ] Milestone 4: Live database testing
 
@@ -83,4 +83,4 @@ Ensure to update tests as necessary.
 
 # License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details._
+This project is licensed under the MIT License - _see the [LICENSE](LICENSE) file for details._

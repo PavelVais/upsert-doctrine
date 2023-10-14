@@ -2,7 +2,7 @@
 FROM php:8.1-fpm
 
 # Install PHP extensions, you may add more extensions if needed
-RUN docker-php-ext-install pdo pdo_mysql
+RUN docker-php-ext-install pdo pdo_mysql mysqli
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
