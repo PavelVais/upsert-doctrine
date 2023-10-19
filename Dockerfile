@@ -1,5 +1,5 @@
 # Dockerfile
-FROM php:8.1-fpm
+FROM php:8.0-fpm
 
 # Install PHP extensions, you may add more extensions if needed
 RUN docker-php-ext-install pdo pdo_mysql mysqli
