@@ -9,8 +9,7 @@ use Doctrine\DBAL\Platforms\MySQL80Platform;
 use Doctrine\DBAL\Platforms\PostgreSQLPlatform;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Exception\NotSupported;
-use Doctrine\ORM\Mapping\ClassMetadata;
-use Pavelvais\UpsertDoctrine\Service\UpsertQueryBuilder;
+use Pavelvais\UpsertDoctrine\Builder\UpsertQueryBuilder;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 

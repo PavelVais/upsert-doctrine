@@ -1,17 +1,18 @@
 <?php declare(strict_types=1);
 
-namespace Pavelvais\UpsertDoctrine\Provider;
+namespace Pavelvais\UpsertDoctrine;
 
 use Doctrine\DBAL\Platforms\MariaDBPlatform;
 use Doctrine\DBAL\Platforms\MySQL80Platform;
 use Doctrine\DBAL\Platforms\MySQLPlatform;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Exception\NotSupported;
+use Pavelvais\UpsertDoctrine\Provider\ProviderInterface;
 
 class ProviderManager
 {
     public function __construct(
-        private readonly EntityManagerInterface $entityManager,
+        private EntityManagerInterface $entityManager,
     )
     {
     }

@@ -1,11 +1,11 @@
 <?php
 
-namespace Pavelvais\UpsertDoctrine\Tests\Provider;
+namespace Pavelvais\UpsertDoctrine\Tests;
 
 use Doctrine\ORM\EntityManagerInterface;
-use Pavelvais\UpsertDoctrine\Provider\ProviderManager;
-use PHPUnit\Framework\TestCase;
 use Doctrine\ORM\Exception\NotSupported;
+use Pavelvais\UpsertDoctrine\ProviderManager;
+use PHPUnit\Framework\TestCase;
 
 class ProviderManagerTest extends TestCase
 {

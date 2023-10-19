@@ -20,24 +20,45 @@ Below is a basic example demonstrating how to use Upsert-Doctrine:
 ```php
 use PavelVais\UpsertDoctrine\UpsertManager;
 
-$upsertQueryBuilder = new UpsertQueryBuilder($entityManager);
+$entityManager = // ... get your Doctrine entity manager here
+$upsertManager = new UpsertManager($entityManager);
+
+// Example for Single Upsert
 $data = [
-    'id' => 1,
-    'name' => 'John Doe',
-    'email' => 'johndoe@example.com'
+    'book_id' => 1,
+    'author_id' => 2,
+    'ownership_type' => 2,
 ];
+$repositoryClass = DoctrineOrmEntity::class; // Replace with your actual repository class
 
-// Create upsert query
-$query = $upsertQueryBuilder->upsertQuery($data, DoctrineOrmEntity::class);
-
-// Execute upsert query
-$statement = $entityManager->getConnection()->prepare($sql);
-
-foreach ($data as $column => $value) {
-    $statement->bindValue(':' . $column, $value);
+try {
+    $result = $upsertManager->execute($data, $repositoryClass);
+    // $result will contain the number of affected rows
+} catch (\Exception $e) {
+    // Handle exceptions
 }
 
-$result = $statement->executeQuery();
+// Example for Batch Upsert
+$batchData = [
+    [
+        'book_id' => 1,
+        'author_id' => 2,
+        'ownership_type' => 2,
+    ],
+    [
+        'book_id' => 2,
+        'author_id' => 3,
+        'ownership_type' => 1,
+    ],
+];
+
+try {
+    $result = $upsertManager->executeBatch($batchData, $repositoryClass);
+    // $result will contain the number of affected rows
+} catch (\Exception $e) {
+    // Handle exceptions
+}
+
 ```
 
 ## Local Testing with Docker
@@ -69,10 +90,12 @@ Here are the steps to get started:
 
 ## Roadmap
 
-- [x] Milestone 1: Basic Upsert Functionality
-- [x] Milestone 2: Batch Upsert method
-- [ ] Milestone 3: Postgres Support
-- [ ] Milestone 4: Live database testing
+- [x] Basic Upsert Functionality
+- [x] Batch Upsert method
+- [ ] Query Manager
+- [ ] Custom On Conflict callback
+- [ ] Postgres Support
+- [ ] Live database testing
 
 
 # Contributing

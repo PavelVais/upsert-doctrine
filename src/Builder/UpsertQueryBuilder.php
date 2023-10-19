@@ -1,13 +1,13 @@
 <?php declare(strict_types=1);
 
-namespace Pavelvais\UpsertDoctrine\Service;
+namespace Pavelvais\UpsertDoctrine\Builder;
 
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Exception;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Exception\NotSupported;
 use Pavelvais\UpsertDoctrine\Provider\ProviderInterface;
-use Pavelvais\UpsertDoctrine\Provider\ProviderManager;
+use Pavelvais\UpsertDoctrine\ProviderManager;
 
 class UpsertQueryBuilder
 {
@@ -18,7 +18,7 @@ class UpsertQueryBuilder
     private ProviderManager $providerManager;
 
     public function __construct(
-        private readonly EntityManagerInterface $entityManager,
+        private EntityManagerInterface $entityManager,
     )
     {
         $this->connection = $entityManager->getConnection();

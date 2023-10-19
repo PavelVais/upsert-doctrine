@@ -8,7 +8,7 @@ use Pavelvais\UpsertDoctrine\Exception\InvalidUpsertArguments;
 class MariaDbUpsertProvider implements ProviderInterface
 {
     public function __construct(
-        private readonly EntityManagerInterface $entityManager,
+        private EntityManagerInterface $entityManager,
     )
     {
     }
