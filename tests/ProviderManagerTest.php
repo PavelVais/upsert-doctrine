@@ -11,6 +11,15 @@ class ProviderManagerTest extends TestCase
 {
     private ProviderManager $providerManager;
 
+    public function supportedPlatformsProvider(): array
+    {
+        return [
+            ['Doctrine\DBAL\Platforms\MySQLPlatform', 'Pavelvais\UpsertDoctrine\Provider\MariaDbUpsertProvider'],
+            ['Doctrine\DBAL\Platforms\MySQL80Platform', 'Pavelvais\UpsertDoctrine\Provider\MariaDbUpsertProvider'],
+            ['Doctrine\DBAL\Platforms\MariaDBPlatform', 'Pavelvais\UpsertDoctrine\Provider\MariaDbUpsertProvider'],
+        ];
+    }
+
     protected function setUp(): void
     {
         $entityManager = $this->createMock(EntityManagerInterface::class);
@@ -26,18 +35,13 @@ class ProviderManagerTest extends TestCase
         $this->providerManager = new ProviderManager($entityManager);
     }
 
-    public function testGetProviderForSupportedPlatforms(): void
+    /**
+     * @dataProvider supportedPlatformsProvider
+     */
+    public function testGetProviderForSupportedPlatforms($platform, $expectedProvider): void
     {
-        $supportedPlatforms = [
-            'Doctrine\DBAL\Platforms\MySQLPlatform' => 'Pavelvais\UpsertDoctrine\Provider\MariaDbUpsertProvider',
-            'Doctrine\DBAL\Platforms\MySQL80Platform' => 'Pavelvais\UpsertDoctrine\Provider\MariaDbUpsertProvider',
-            'Doctrine\DBAL\Platforms\MariaDBPlatform' => 'Pavelvais\UpsertDoctrine\Provider\MariaDbUpsertProvider',
-        ];
-
-        foreach ($supportedPlatforms as $platform => $expectedProvider) {
-            $provider = $this->providerManager->getProvider($platform);
-            $this->assertInstanceOf($expectedProvider, $provider);
-        }
+        $provider = $this->providerManager->getProvider($platform);
+        $this->assertInstanceOf($expectedProvider, $provider);
     }
 
     public function testGetProviderForUnsupportedPlatform(): void

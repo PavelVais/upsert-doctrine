@@ -7,6 +7,7 @@ use Doctrine\DBAL\Platforms\MySQL80Platform;
 use Doctrine\DBAL\Platforms\MySQLPlatform;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Exception\NotSupported;
+use Pavelvais\UpsertDoctrine\Provider\MariaDbUpsertProvider;
 use Pavelvais\UpsertDoctrine\Provider\ProviderInterface;
 
 class ProviderManager
