@@ -91,7 +91,7 @@ Here are the steps to get started:
 
 - [x] Basic Upsert Functionality
 - [x] Batch Upsert method
-- [ ] Query Manager
+- [x] Query Manager
 - [ ] Postgres Support
 - [ ] Live database testing
 
