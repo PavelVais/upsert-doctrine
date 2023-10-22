@@ -87,7 +87,6 @@ Here are the steps to get started:
     make test
     ```
 
-
 ## Roadmap
 
 - [x] Basic Upsert Functionality
