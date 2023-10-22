@@ -93,7 +93,6 @@ Here are the steps to get started:
 - [x] Basic Upsert Functionality
 - [x] Batch Upsert method
 - [ ] Query Manager
-- [ ] Custom On Conflict callback
 - [ ] Postgres Support
 - [ ] Live database testing
 
@@ -101,7 +100,6 @@ Here are the steps to get started:
 # Contributing
 
 Contributions are welcome! For major changes, please open an issue first to discuss what you would like to change.
-
 Ensure to update tests as necessary.
 
 # License
